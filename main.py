@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+import json
 
 @dataclass
 class Expense:
@@ -29,6 +30,22 @@ def total_by_category(expenses):
 print(total_by_category(expenses))
         
         
-        
-    
+def save_expenses(expenses):
+    exp= [asdict(i) for i in expenses]
+    with open('expenses.json','w', encoding='utf-8') as file:
+       json.dump(exp, file, ensure_ascii=False)
+       
+save_expenses(expenses)
+
+
+def load_expenses():
+    try:
+        with open('expenses.json', 'r', encoding='utf-8') as file:
+            exp=json.load(file)   
+    except FileNotFoundError:
+        return []
+    return [Expense(**i) for i in exp]
+            
+print(load_expenses())
+            
     
