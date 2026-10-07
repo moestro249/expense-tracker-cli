@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from datetime import date
 import json
 
 @dataclass
@@ -11,12 +12,6 @@ class Expense:
 def add_expense(expenses, expense):
     expenses.append(expense)
 
-expenses = []
-add_expense(expenses, Expense(250, "еда", "2026-10-07", "обед"))
-add_expense(expenses, Expense(120, "еда", "2026-10-07", "кофе"))
-add_expense(expenses, Expense(80, "транспорт", "2026-10-07", "метро"))
-print(expenses)
-
 def total(expenses):
     return sum(i.amount for i in expenses)
 
@@ -26,17 +21,11 @@ def total_by_category(expenses):
         result[i.category]=result.get(i.category, 0) + i.amount
         
     return result
-
-print(total_by_category(expenses))
-        
-        
+              
 def save_expenses(expenses):
     exp= [asdict(i) for i in expenses]
     with open('expenses.json','w', encoding='utf-8') as file:
        json.dump(exp, file, ensure_ascii=False)
-       
-save_expenses(expenses)
-
 
 def load_expenses():
     try:
@@ -45,7 +34,61 @@ def load_expenses():
     except FileNotFoundError:
         return []
     return [Expense(**i) for i in exp]
+
+expenses = load_expenses()
+
+while True:
+    while True:
+        print("1. Добавить трату", "2. Показать все","3. Итог по категориям","4. Выход")
+        try:
+            answer=int(input())
+            break
+        except ValueError:
+            print("Введите число из списка ")
+    
+    if answer==1:
+        while True:
+            try:
+                amount=int(input("amount:"))
+                if amount>=0:
+                    break
+            except ValueError:
+                print("Неверные данные")
+        category=input("category:")
+        camment=input("comment:")
+        add_expense(expenses,Expense(amount,category,str(date.today()),camment))
+        
+    elif answer==2:
+        for i in expenses:
+            print(i)
+        
+    elif answer==3:
+        totals=total_by_category(expenses)
+        if not totals:
+            print("Трат нет")
+        else:
+            c=None
+            a=0
+            for x,y in totals.items():
+                if a<y:
+                    c,a=x,y
+            print(f"вы больше всего потратили на {c}={a}")
+        
+    elif answer==4:
+        break
+    
+    else:
+        print("неверная команда")
             
-print(load_expenses())
+            
+            
+        
+        
+        
+# add_expense(expenses, Expense(250, "еда", "2026-10-07", "обед"))
+# add_expense(expenses, Expense(120, "еда", "2026-10-07", "кофе"))
+# add_expense(expenses, Expense(80, "транспорт", "2026-10-07", "метро"))
+
+
             
     
