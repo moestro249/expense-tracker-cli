@@ -57,10 +57,12 @@ while True:
         category=input("category:")
         camment=input("comment:")
         add_expense(expenses,Expense(amount,category,str(date.today()),camment))
+        save_expenses(expenses)
         
     elif answer==2:
         for i in expenses:
             print(i)
+        save_expenses(expenses)
         
     elif answer==3:
         totals=total_by_category(expenses)
@@ -73,10 +75,11 @@ while True:
                 if a<y:
                     c,a=x,y
             print(f"вы больше всего потратили на {c}={a}")
+        save_expenses(expenses)
         
     elif answer==4:
+        save_expenses(expenses)
         break
-    
     else:
         print("неверная команда")
             
