@@ -69,12 +69,8 @@ while True:
         if not totals:
             print("Трат нет")
         else:
-            c=None
-            a=0
             for x,y in totals.items():
-                if a<y:
-                    c,a=x,y
-            print(f"вы больше всего потратили на {c}={a}")
+                print(f"{x}:{y}")
         save_expenses(expenses)
         
     elif answer==4:
