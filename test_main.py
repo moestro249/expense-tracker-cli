@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category,save_expenses,load_expenses, Expense
+from main import add_expense, total, total_by_category, Expense
 
 def test_total():
     expenses = [
@@ -24,4 +24,12 @@ def test_total_by_category_empty():
     expenses=[]
     
     assert total_by_category(expenses)=={}
+    
+def test_add_expense():
+    e = Expense(100, "еда", "2026-10-07")
+    expenses=[]
+    add_expense(expenses, e)
+    
+    assert len(expenses)==1
+    assert expenses[0]==e
     
