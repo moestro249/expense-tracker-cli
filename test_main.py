@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category, Expense
+from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses
 
 def test_total():
     expenses = [
@@ -31,5 +31,24 @@ def test_add_expense():
     add_expense(expenses, e)
     
     assert len(expenses)==1
-    assert expenses[0]==e
+    assert expenses[0] is e
+    
+def test_save_expenses(tmp_path):
+    file = tmp_path / 'test.json'
+    expenses = [Expense(100, "еда", "2026-10-07", "обед")]
+    save_expenses(expenses,file)
+    
+    assert load_expenses(file)==expenses
+    
+def test_load_expenses(tmp_path):
+    file = tmp_path / 'test.json'
+    file.write_text(
+        '[{"amount": 100, "category": "еда", "date": "2026-10-07", "comment": "обед"}]',
+        encoding='utf-8'
+    )
+    
+    assert load_expenses(file)==[Expense(100, "еда", "2026-10-07", "обед")]
+    
+def test_missing_load_expenses(tmp_path):
+    assert load_expenses(tmp_path / 'no.json')==[]
     

@@ -22,14 +22,14 @@ def total_by_category(expenses):
         
     return result
               
-def save_expenses(expenses):
+def save_expenses(expenses,filename='expenses.json'):
     exp= [asdict(i) for i in expenses]
-    with open('expenses.json','w', encoding='utf-8') as file:
+    with open(filename,'w', encoding='utf-8') as file:
        json.dump(exp, file, ensure_ascii=False)
 
-def load_expenses():
+def load_expenses(filename='expenses.json'):
     try:
-        with open('expenses.json', 'r', encoding='utf-8') as file:
+        with open(filename, 'r', encoding='utf-8') as file:
             exp=json.load(file)   
     except FileNotFoundError:
         return []
@@ -88,5 +88,4 @@ if __name__=="__main__":
     main()
 
 
-            
-    
+        
