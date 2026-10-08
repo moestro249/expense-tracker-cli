@@ -62,7 +62,6 @@ while True:
     elif answer==2:
         for i in expenses:
             print(i)
-        save_expenses(expenses)
         
     elif answer==3:
         totals=total_by_category(expenses)
@@ -71,10 +70,8 @@ while True:
         else:
             for x,y in totals.items():
                 print(f"{x}:{y}")
-        save_expenses(expenses)
         
     elif answer==4:
-        save_expenses(expenses)
         break
     else:
         print("неверная команда")
