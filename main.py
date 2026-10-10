@@ -35,13 +35,19 @@ def load_expenses(filename='expenses.json'):
         return []
     return [Expense(**i) for i in exp]
 
+def delete_expense(expenses, index):
+    if 0<= index < len(expenses):
+        del expenses[index]
+        return True
+    return False
+
 
 def main():
     expenses = load_expenses()
 
     while True:
         while True:
-            print("1. Добавить трату", "2. Показать все","3. Итог по категориям","4. Выход", sep="\n")
+            print("1. Добавить трату", "2. Показать все","3. Итог по категориям",'4. удалить',"5. Выход", sep="\n")
             try:
                 answer=int(input())
                 break
@@ -78,8 +84,25 @@ def main():
                 for x,y in totals.items():
                     print(f"{x}:{y}")
                 print(f"Всего потрачено: {total(expenses)}")
-            
+                
         elif answer==4:
+            if not expenses:
+                print("Трат нет")
+            else:
+                for i in range(len(expenses)):
+                    print(i+1)
+                    print(expenses[i])
+                try:
+                    ans=int(input("Выберите индекс который хотите удалить:"))
+                except:
+                    print("Неверные данные")
+                else:
+                    if delete_expense(expenses,(ans-1)):
+                        save_expenses(expenses)
+                    else:
+                        print("Нет такого номера")
+            
+        elif answer==5:
             break
         else:
             print("неверная команда")

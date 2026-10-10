@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses
+from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense
 
 def test_total():
     expenses = [
@@ -51,4 +51,9 @@ def test_load_expenses(tmp_path):
     
 def test_missing_load_expenses(tmp_path):
     assert load_expenses(tmp_path / 'no.json')==[]
+
+def test_delete_expense(tmp_path):
+    expenses = [Expense(100, "еда", "2026-10-07", "обед")]
+    delete_expense(expenses,0)
     
+    assert expenses == []
