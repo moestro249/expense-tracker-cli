@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense
+from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense,filter_by_category
 
 def test_total():
     expenses = [
@@ -73,4 +73,10 @@ def test_delete_out_index():
     assert result1 == False
     assert result2 == False
     
+def test_filter_by_category():
+    a = Expense(100, "еда", "2026-10-07")
+    b = Expense(80, "транспорт", "2026-10-07")
+    c = Expense(50, "еда", "2026-10-08")
+    expenses = [a,b,c]
     
+    assert filter_by_category(expenses, 'еда') == [a,c]
