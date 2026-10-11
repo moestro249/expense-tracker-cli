@@ -41,13 +41,16 @@ def delete_expense(expenses, index):
         return True
     return False
 
+def filter_by_category(expenses, category):
+    return [ e for e in expenses if e.category == category]
+    
 
 def main():
     expenses = load_expenses()
 
     while True:
         while True:
-            print("1. Добавить трату", "2. Показать все","3. Итог по категориям",'4. удалить',"5. Выход", sep="\n")
+            print("1. Добавить трату", "2. Показать все","3. Итог по категориям",'4. удалить','5. фильтр по категориям',"6. Выход", sep="\n")
             try:
                 answer=int(input())
                 break
@@ -101,8 +104,37 @@ def main():
                         save_expenses(expenses)
                     else:
                         print("Нет такого номера")
-            
         elif answer==5:
+            totals = total_by_category(expenses)
+            if not totals:
+                print("Трат нет")
+            else:
+                for n,c in enumerate(totals,start=1):
+                    print(n,c)
+                while True:
+                    try:
+                        ans=int(input("Выберите номер категории:"))
+                        break
+                    except ValueError:
+                        print("Неверные данные")
+                categories = list(totals)
+                        
+                if 1 <= ans <= len(categories):
+                    result = filter_by_category(expenses,categories[ans-1])
+                    if result:
+                        print(categories[ans-1])
+                        for n,i in enumerate(result,start=1):
+                            print(n,i.amount)
+                        print("Всего потрачено:",total(result))
+                    else:
+                        print("Трат нет")
+                else:
+                    print("Нет такого номера")
+                    
+                
+            
+                
+        elif answer==6:
             break
         else:
             print("неверная команда")
