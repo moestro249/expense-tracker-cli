@@ -61,3 +61,16 @@ def test_delete_expense():
     
     assert expenses == [e2,e3]
     assert result is True
+    
+def test_delete_out_index():
+    e1 = Expense(101, "еда", "2026-10-07", "обед")
+    e2= Expense(102, "еда", "2026-10-07", "обед")
+    expenses=[e1,e2]
+    
+    result1 = delete_expense(expenses,-1)
+    result2 = delete_expense(expenses, 5)
+    
+    assert result1 == False
+    assert result2 == False
+    
+    
