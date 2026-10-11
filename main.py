@@ -89,15 +89,15 @@ def main():
             if not expenses:
                 print("Трат нет")
             else:
-                for i in range(len(expenses)):
-                    print(i+1)
-                    print(expenses[i])
+                for n, e in enumerate(expenses,start=1):
+                    print(n,e)
                 try:
-                    ans=int(input("Выберите индекс который хотите удалить:"))
-                except:
+                    ans=int(input("Выберите номер который хотите удалить:"))
+                except ValueError:
                     print("Неверные данные")
                 else:
                     if delete_expense(expenses,(ans-1)):
+                        print("Удалено")
                         save_expenses(expenses)
                     else:
                         print("Нет такого номера")

@@ -52,8 +52,12 @@ def test_load_expenses(tmp_path):
 def test_missing_load_expenses(tmp_path):
     assert load_expenses(tmp_path / 'no.json')==[]
 
-def test_delete_expense(tmp_path):
-    expenses = [Expense(100, "еда", "2026-10-07", "обед")]
-    delete_expense(expenses,0)
+def test_delete_expense():
+    e1 = Expense(101, "еда", "2026-10-07", "обед")
+    e2= Expense(102, "еда", "2026-10-07", "обед")
+    e3 = Expense(103, "еда", "2026-10-07", "обед")
+    expenses=[e1,e2,e3]
+    result = delete_expense(expenses,0)
     
-    assert expenses == []
+    assert expenses == [e2,e3]
+    assert result is True
