@@ -146,7 +146,6 @@ def main():
                 end = input("Выберите с какой даты закончить:")
                 if is_valid_date(start) and is_valid_date(end):
                     result = filter_by_period(expenses, start, end)
-                    c=0
                     for i in result:
                         print(i.amount)
                     print("итог:", total(result))
