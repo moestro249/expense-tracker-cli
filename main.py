@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from datetime import date
+from datetime import date, datetime
 import json
 
 @dataclass
@@ -46,6 +46,13 @@ def filter_by_category(expenses, category):
     
 def filter_by_period(expenses, start, end):
     return [i for i in expenses if start <= i.date <= end]
+
+def is_valid_date(s):
+    try:
+        datetime.strptime(s, "%Y-%m-%d")
+    except ValueError:
+        return False
+    return True
 
 def main():
     expenses = load_expenses()
@@ -134,13 +141,18 @@ def main():
                     print("Нет такого номера")
         elif answer == 6:
             print([i.date for i in expenses])
-            start = input("Выберите с какой даты вести отсчет:")
-            end = input("Выберите с какой даты закончить:")
-            result = filter_by_period(expenses, start, end)
-            c=0
-            for i in result:
-                print(i.amount)
-            print("итог:", total(result) )
+            while True:
+                start = input("Выберите с какой даты вести отсчет:")
+                end = input("Выберите с какой даты закончить:")
+                if is_valid_date(start) and is_valid_date(end):
+                    result = filter_by_period(expenses, start, end)
+                    c=0
+                    for i in result:
+                        print(i.amount)
+                    print("итог:", total(result))
+                    break
+                else:
+                    print("Неверные данные")
               
         elif answer == 7:
             break

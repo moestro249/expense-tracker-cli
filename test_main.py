@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense,filter_by_category,filter_by_period
+from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense,filter_by_category,filter_by_period, is_valid_date
 
 def test_total():
     expenses = [
@@ -104,3 +104,13 @@ def test_filter_by_period():
     assert filter_by_period(expenses,"2026-10-08","2026-10-09") == [e2,e3]
     assert e3 not in filter_by_period(expenses,"2026-10-07","2026-10-08")
     assert filter_by_period(expenses,"2026-10-10","2026-10-11") == []
+
+def test_is_valid_date():
+    e1 = Expense(101, "еда", "2026-10-07", "обед")
+    e2= Expense(102, "еда", "2026-10-08", "обед")
+    e3 = Expense(103, "еда", "2026-10-09", "обед")
+    expenses=[e1,e2,e3]
+    
+    assert is_valid_date('2026-10-07') is True
+    assert is_valid_date('2026-10-7') is True
+    assert is_valid_date("2026-13-01") is False
