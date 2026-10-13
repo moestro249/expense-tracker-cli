@@ -70,8 +70,12 @@ def test_delete_out_index():
     result1 = delete_expense(expenses,-1)
     result2 = delete_expense(expenses, 5)
     
-    assert result1 == False
-    assert result2 == False
+    assert result1 is False
+    assert result2 is False
+    assert expenses == [e1, e2]
+
+    
+    
     
 def test_filter_by_category():
     a = Expense(100, "еда", "2026-10-07")
@@ -80,3 +84,11 @@ def test_filter_by_category():
     expenses = [a,b,c]
     
     assert filter_by_category(expenses, 'еда') == [a,c]
+
+def test_filter_by_category_missing():
+    a = Expense(100, "еда", "2026-10-07")
+    b = Expense(80, "транспорт", "2026-10-07")
+    c = Expense(50, "еда", "2026-10-08")
+    expenses = [a,b,c]
+    
+    assert filter_by_category(expenses,"кино") == []
