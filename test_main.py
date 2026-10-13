@@ -1,4 +1,4 @@
-from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense,filter_by_category
+from main import add_expense, total, total_by_category, Expense,save_expenses,load_expenses,delete_expense,filter_by_category,filter_by_period
 
 def test_total():
     expenses = [
@@ -92,3 +92,15 @@ def test_filter_by_category_missing():
     expenses = [a,b,c]
     
     assert filter_by_category(expenses,"кино") == []
+    
+def test_filter_by_period():
+    e1 = Expense(101, "еда", "2026-10-07", "обед")
+    e2= Expense(102, "еда", "2026-10-08", "обед")
+    e3 = Expense(103, "еда", "2026-10-09", "обед")
+    expenses=[e1,e2,e3]
+    
+    assert filter_by_period(expenses,"2026-10-07","2026-10-09") == [e1,e2,e3]
+    assert filter_by_period(expenses,"2026-10-07","2026-10-08") == [e1,e2]
+    assert filter_by_period(expenses,"2026-10-08","2026-10-09") == [e2,e3]
+    assert e3 not in filter_by_period(expenses,"2026-10-07","2026-10-08")
+    assert filter_by_period(expenses,"2026-10-10","2026-10-11") == []

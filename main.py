@@ -44,13 +44,15 @@ def delete_expense(expenses, index):
 def filter_by_category(expenses, category):
     return [ e for e in expenses if e.category == category]
     
+def filter_by_period(expenses, start, end):
+    return [i for i in expenses if start <= i.date <= end]
 
 def main():
     expenses = load_expenses()
 
     while True:
         while True:
-            print("1. Добавить трату", "2. Показать все","3. Итог по категориям",'4. удалить','5. фильтр по категориям',"6. Выход", sep="\n")
+            print("1. Добавить трату", "2. Показать все","3. Итог по категориям",'4. удалить','5. фильтр по категориям','6. показать траты за период',"7. Выход", sep="\n")
             try:
                 answer=int(input())
                 break
@@ -130,11 +132,17 @@ def main():
                         print("Трат нет")
                 else:
                     print("Нет такого номера")
-                    
-                
-            
-                
-        elif answer==6:
+        elif answer == 6:
+            print([i.date for i in expenses])
+            start = input("Выберите с какой даты вести отсчет:")
+            end = input("Выберите с какой даты закончить:")
+            result = filter_by_period(expenses, start, end)
+            c=0
+            for i in result:
+                print(i.amount)
+            print("итог:", total(result) )
+              
+        elif answer == 7:
             break
         else:
             print("неверная команда")
