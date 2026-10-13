@@ -49,10 +49,10 @@ def filter_by_period(expenses, start, end):
 
 def is_valid_date(s):
     try:
-        datetime.strptime(s, "%Y-%m-%d")
+        parsed = datetime.strptime(s, "%Y-%m-%d")
     except ValueError:
         return False
-    return True
+    return parsed.strftime("%Y-%m-%d") == s
 
 def main():
     expenses = load_expenses()
