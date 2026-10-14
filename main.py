@@ -140,21 +140,25 @@ def main():
                 else:
                     print("Нет такого номера")
         elif answer == 6:
-            print([i.date for i in expenses])
+            print(sorted({i.date for i in expenses}))
             while True:
                 start = input("Выберите с какой даты вести отсчет:")
                 end = input("Выберите с какой даты закончить:")
-                if is_valid_date(start) and is_valid_date(end):
-                    result = filter_by_period(expenses, start, end)
-                    if not result:
-                        print("Трат нет")
+                if start <= end:
+                    if is_valid_date(start) and is_valid_date(end):
+                        result = filter_by_period(expenses, start, end)
+                        if not result:
+                            print("Трат нет")
+                            break
+                        else:
+                            for i in result:
+                                print(i)
+                            print("итог:", total(result))
+                            break
                     else:
-                        for i in result:
-                            print(i.amount)
-                        print("итог:", total(result))
-                        break
+                        print("Неверные данные")
                 else:
-                    print("Неверные данные")
+                    print("Начальная дата меньше конечной")
               
         elif answer == 7:
             break
