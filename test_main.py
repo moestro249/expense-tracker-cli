@@ -105,7 +105,15 @@ def test_filter_by_period():
     assert e3 not in filter_by_period(expenses,"2026-10-07","2026-10-08")
     assert filter_by_period(expenses,"2026-10-10","2026-10-11") == []
 
-def test_is_valid_date():
-    assert is_valid_date('2026-10-07') is True
-    assert is_valid_date('2026-10-7') is True
+def test_is_valid_date_ok():
+    assert is_valid_date("2026-10-07") is True
+
+def test_is_valid_date_no_leading_zero():
+    assert is_valid_date("2026-10-7") is False
+
+def test_is_valid_date_bad_month():
     assert is_valid_date("2026-13-01") is False
+
+def test_is_valid_date_garbage():
+    assert is_valid_date("abc") is False
+    assert is_valid_date("") is False
