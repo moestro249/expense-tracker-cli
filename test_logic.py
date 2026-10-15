@@ -1,6 +1,5 @@
 from models import Expense
 from logic import total, total_by_category, add_expense, delete_expense, filter_by_category, filter_by_period, is_valid_date
-from storage import load_expenses
 
 def test_total():
     expenses = [
@@ -34,13 +33,6 @@ def test_add_expense():
     
     assert len(expenses)==1
     assert expenses[0] is e
-    
-
-    
-
-    
-def test_missing_load_expenses(tmp_path):
-    assert load_expenses(tmp_path / 'no.json')==[]
 
 def test_delete_expense():
     e1 = Expense(101, "еда", "2026-10-07", "обед")

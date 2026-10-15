@@ -1,7 +1,9 @@
 from datetime import date
 from models import Expense
-from logic import filter_by_category, add_expense, filter_by_period, delete_expense, is_valid_date, total, total_by_category
+from logic import filter_by_category, add_expense, filter_by_period, delete_expense, total, total_by_category
+from ui import ask_positive_float, ask_int, ask_date
 from storage import save_expenses, load_expenses
+
 
 def main():
     expenses = load_expenses()
@@ -16,15 +18,7 @@ def main():
                 print("Введите число из списка ")
         
         if answer==1:
-            while True:
-                try:
-                    amount=float(input("amount:"))
-                    if amount>0:
-                        break
-                    else:
-                        print("Неверные данные")
-                except ValueError:
-                    print("Неверные данные")
+            amount = ask_positive_float(prompt="amount:")
             category=input("category:")
             comment=input("comment:")
             add_expense(expenses,Expense(amount,category,str(date.today()),comment))
@@ -52,16 +46,12 @@ def main():
             else:
                 for n, e in enumerate(expenses,start=1):
                     print(n,e)
-                try:
-                    ans=int(input("Выберите номер который хотите удалить:"))
-                except ValueError:
-                    print("Неверные данные")
+                ans = ask_int(prompt="Выберите номер который хотите удалить:")
+                if delete_expense(expenses,(ans-1)):
+                    print("Удалено")
+                    save_expenses(expenses)
                 else:
-                    if delete_expense(expenses,(ans-1)):
-                        print("Удалено")
-                        save_expenses(expenses)
-                    else:
-                        print("Нет такого номера")
+                    print("Нет такого номера")
         elif answer==5:
             totals = total_by_category(expenses)
             if not totals:
@@ -69,12 +59,7 @@ def main():
             else:
                 for n,c in enumerate(totals,start=1):
                     print(n,c)
-                while True:
-                    try:
-                        ans=int(input("Выберите номер категории:"))
-                        break
-                    except ValueError:
-                        print("Неверные данные")
+                ans = ask_int(prompt="Выберите номер категории:")
                 categories = list(totals)
                         
                 if 1 <= ans <= len(categories):
@@ -90,24 +75,14 @@ def main():
                     print("Нет такого номера")
         elif answer == 6:
             print(sorted({i.date for i in expenses}))
-            while True:
-                start = input("Выберите с какой даты вести отсчет:")
-                end = input("Выберите с какой даты закончить:")
-                if start <= end:
-                    if is_valid_date(start) and is_valid_date(end):
-                        result = filter_by_period(expenses, start, end)
-                        if not result:
-                            print("Трат нет")
-                            break
-                        else:
-                            for i in result:
-                                print(i)
-                            print("итог:", total(result))
-                            break
-                    else:
-                        print("Неверные данные")
-                else:
-                    print("Начальная дата меньше конечной")
+            start, end = ask_date(prompt1="Выберите с какой даты вести отсчет:",prompt2 = "Выберите с какой даты закончить:")
+            result = filter_by_period(expenses, start, end)
+            if not result:
+                print("Трат нет")
+            else:
+                for i in result:
+                    print(i)
+                print("итог:", total(result))
               
         elif answer == 7:
             break
