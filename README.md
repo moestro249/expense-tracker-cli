@@ -1,3 +1,5 @@
+[![Tests](https://github.com/moestro249/expense-tracker-cli/actions/workflows/tests.yml/badge.svg)](https://github.com/moestro249/expense-tracker-cli/actions/workflows/tests.yml)
+
 # expense-tracker-cli
 
 A console app for tracking personal expenses, written in Python.
